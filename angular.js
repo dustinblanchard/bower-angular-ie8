@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.3.19-local+sha.c995f7e
+ * @license AngularJS v1.3.19-local+sha.8e38515
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -54,7 +54,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.c995f7e/' +
+    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.8e38515/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i - 2) + '=' +
@@ -2128,7 +2128,7 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.3.19-local+sha.c995f7e',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.3.19-local+sha.8e38515',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 3,
   dot: 19,
@@ -9754,8 +9754,28 @@ function $HttpProvider() {
   }];
 }
 
+function addReadyStateDispatchShim(xhr) {
+  xhr.onreadystatechange = function() {
+    // IE8 Debugger doesn't show closure: convenience variable for debugging.
+    var xhr_capture = xhr;
+    if (xhr_capture.readyState == 4) {
+      if (xhr_capture.status === 200 || xhr_capture.status == 304) {
+	if (xhr_capture.onload) {
+	  xhr_capture.onload();
+	}
+      } else if (xhr_caputure.onerror) {
+	xhr_capture.onerror();
+      }
+    }
+  }
+}
+
 function createXhr() {
-    return new window.XMLHttpRequest();
+  var xhr = new window.XMLHttpRequest();
+  if (window.attachEvent && !window.addEventListener) { // is IE8
+    addReadyStateDispatchShim(xhr);
+  }
+  return xhr;
 }
 
 /**
