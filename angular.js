@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.3.19-local+sha.214f21e
+ * @license AngularJS v1.3.19-local+sha.bfcc462
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -54,7 +54,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.214f21e/' +
+    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.bfcc462/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i - 2) + '=' +
@@ -2128,7 +2128,7 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.3.19-local+sha.214f21e',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.3.19-local+sha.bfcc462',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 3,
   dot: 19,
@@ -9784,7 +9784,7 @@ function addReadyStateDispatchShim(xhr) {
 	if (xhr_capture.onload) {
 	  xhr_capture.onload();
 	}
-      } else if (xhr_caputure.onerror) {
+      } else if (xhr_capture.onerror) {
 	xhr_capture.onerror();
       }
     }
