@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.3.19-local+sha.8e38515
+ * @license AngularJS v1.3.19-local+sha.8948503
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -54,7 +54,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.8e38515/' +
+    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.8948503/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i - 2) + '=' +
@@ -2128,7 +2128,7 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.3.19-local+sha.8e38515',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.3.19-local+sha.8948503',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 3,
   dot: 19,
@@ -2384,11 +2384,32 @@ JQLite.expando = 'ng339';
 
 var jqCache = JQLite.cache = {},
     jqId = 1,
+    eventNameToDomNameTranslator = (function () {
+	    var supportedEvents = { submit: true, click: true };
+	    return function(eventName) {
+		if (!supportedEvents[eventName]) {
+		    throw new Error("Unable to translate event to attachEvent-style name: " + eventName);
+		}
+		return "on" + eventName;
+	    }
+    })(),
     addEventListenerFn = function(element, type, fn) {
-      element.addEventListener(type, fn, false);
+      if (element.addEventListener) {
+        element.addEventListener(type, fn, false);
+      } else if (element.attachEvent) {
+	element.attachEvent(eventNameToDomNameTranslator(type), fn);
+      } else {
+        throw new Error("Unable to attach to event " + type + " on " + element.tagName);
+      }
     },
     removeEventListenerFn = function(element, type, fn) {
-      element.removeEventListener(type, fn, false);
+      if (element.removeEventListener) {
+	element.removeEventListener(type, fn, false);
+      } else if (element.detachEvent) {
+	element.attachEvent(eventNameToDomNameTranslator(type), fn);
+      } else {
+	throw new Error("Unable to detach to event " + type + " on " + element.tagName);
+      }
     };
 
 /*
@@ -18744,6 +18765,10 @@ var formDirectiveFactory = function(isNgForm) {
                   controller.$commitViewValue();
                   controller.$setSubmitted();
                 });
+
+                if (!event.preventDefault) {
+		    event = $.event.fix(event);
+                }
 
                 event.preventDefault();
               };
