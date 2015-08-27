@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.3.19-local+sha.8948503
+ * @license AngularJS v1.3.19-local+sha.214f21e
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -54,7 +54,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.8948503/' +
+    message = message + '\nhttp://errors.angularjs.org/1.3.19-local+sha.214f21e/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i - 2) + '=' +
@@ -2128,7 +2128,7 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.3.19-local+sha.8948503',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.3.19-local+sha.214f21e',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 3,
   dot: 19,
@@ -24686,6 +24686,10 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
           // remove leftover items
           for (var blockKey in lastBlockMap) {
             block = lastBlockMap[blockKey];
+	    // IE8: '__proto__' is returned as an element when iterating over a map like this.
+	    if (!block && blockKey === '__proto__') {
+	      continue;
+	    }
             elementsToRemove = getBlockNodes(block.clone);
             $animate.leave(elementsToRemove);
             if (elementsToRemove[0].parentNode) {
