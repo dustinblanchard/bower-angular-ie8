@@ -1,6 +1,6 @@
 {
   "name": "angular-ie8",
-  "version": "1.3.26",
+  "version": "1.3.19-ie8.3",
   "description": "HTML enhanced for web apps",
   "main": "index.js",
   "scripts": {
