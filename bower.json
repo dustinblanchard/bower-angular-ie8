@@ -1,6 +1,6 @@
 {
   "name": "angular-ie8",
-  "version": "1.3.23",
+  "version": "1.3.24",
   "main": "./angular.js",
   "ignore": [],
   "dependencies": {
